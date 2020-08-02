@@ -1,11 +1,11 @@
 # odetocode
 
-##What is this project all about. 
+## What is this project all about. 
 This project was made for demonstration purpose in ode to code hackthon conducted by VESIT(Chembur) in 2019. 
 This project is based on Django framework.
 The topic of the project was to create a webapp which can be used for college elections. 
 Some of the fetures include statistics of election, security and intigirty management, CRUD based on elections, application for election, administration etc. 
-This project got 1st price for hackathon. 
+This project got 1st price for hackathon. You can find video demo about this project in "django/recordings" folder.
 
 ## Setup and running this project
  Make sure you have python 3.7 installed.
