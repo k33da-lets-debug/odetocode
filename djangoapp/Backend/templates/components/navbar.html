@@ -1,0 +1,27 @@
+<!-- ======= Header ======= -->
+  <header id="header">
+    <div class="container d-flex">
+
+      <div class="logo mr-auto">
+        <h1 class="text-light"><a href="{% url 'campaign_list' %}"><span>Elections web app</span></a></h1>
+        <!-- Uncomment below if you prefer to use an image logo -->
+        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      </div>
+
+      <nav class="nav-menu d-none d-lg-block">
+      {% if request.user.is_authenticated %}
+
+          <ul>
+          <li><a href="#" class="nav-link disabled">Welcome, <span class="font-weight-light m-0">{{ user.get_username }}<span>.</a></li>
+          <li><a href="{% url 'campaign_list' %}">Ongoing campaigns</a></li>
+          {% comment %} <li><a href="#about">About Us</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#portfolio">Portfolio</a></li> {% endcomment %}
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+
+        </ul>
+        {% endif %}
+      </nav><!-- .nav-menu -->
+
+    </div>
+  </header><!-- End Header -->

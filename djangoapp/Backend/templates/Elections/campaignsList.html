@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+.btn-ovrd {
+  padding: 4px 30px 6px 30px;
+  border: 2px solid #1bbca3;
+  text-align:right;
+}
+
+.btn-ovrd:hover {
+  color: #fff;
+  background: #1bbca3;
+}
+
+.res-button:hover{
+  color: #fff;
+  border: 2px solid green;
+  background: green;
+}
+
+.res-button{
+  color: #fff;
+  border: 2px solid #fff;
+  background: green;
+}
+
+.card {
+  text-align: ceneter;
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 18px;
+  color: #334240;
+  transition: ease-in-out 0.3s;
+}
+
+.card-title a:hover {
+  color: #1bbca3;
+}
+
+</style>
+
+
+<section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Ongoing campaigns in </h2>
+          <h2>{{class}}</h2>
+        </div>
+
+{% for item in data %}
+
+<div class="campaignItem">
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-8 mt-3">
+            <div class="card">
+                <div class="card-horizontal">
+                    <div class="card-body">
+                        <h3 class="card-title">{{item.nameOfCampaign}}  {{item.classDetails.year}}  {{item.classDetails.division}}</h3>
+                        <p>
+                          {{item.shortDescription}}
+                        </p>
+                    </div>
+                    
+                </div>
+                
+                <div class="card-footer">
+                    <small class="text-muted">{{item.datetime}}</small>
+                    {% if item.expired == 'Expired' %}
+                      <span class="badge badge-pill  badge-secondary ">{{item.expired}}</span>
+                       <a href="{% url 'campaign_detail' pk=item.pk %}" class="btn-ovrd float-right res-button" >Results</a>
+                    {% else %}
+                      <span class="badge badge-pill  badge-success ">{{item.expired}}</span>
+                       <a href="{% url 'campaign_detail' pk=item.pk %}" class="btn-ovrd float-right" >vote now</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+ 
+{% endfor %}
+
+
+</section>
+
+
+{% if spl_campaign_data %}
+
+
+<section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Special camaigns</h2>
+        </div>
+
+{% for item in spl_campaign_data %}
+
+<div class="campaignItem">
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-8 mt-3">
+            <div class="card">
+                <div class="card-horizontal">
+                    <div class="card-body">
+                        <h3 class="card-title">{{item.nameOfCampaign}}  {{item.classDetails.year}}  {{item.classDetails.division}}</h3>
+                        <p>
+                          {{item.shortDescription}}
+                        </p>
+                    </div>
+                    
+                </div>
+                
+                <div class="card-footer">
+                    <small class="text-muted">{{item.datetime}}</small>
+                    {% if item.expired == 'Expired' %}
+                      <span class="badge badge-pill  badge-secondary ">{{item.expired}}</span>
+                       <a href="{% url 'campaign_detail' pk=item.pk %}" class="btn-ovrd float-right res-button" >Results</a>
+                    {% else %}
+                      <span class="badge badge-pill  badge-success ">{{item.expired}}</span>
+                       <a href="{% url 'campaign_detail' pk=item.pk %}" class="btn-ovrd float-right" >vote now</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+ 
+{% endfor %}
+
+
+</section>
+
+{% endif %}
+
+
+{% endblock %}

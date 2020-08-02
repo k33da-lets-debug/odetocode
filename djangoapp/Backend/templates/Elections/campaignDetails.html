@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+
+.collapsible-link::before {
+  content: '';
+  width: 14px;
+  height: 2px;
+  background: #333;
+  position: absolute;
+  top: calc(50% - 1px);
+  right: 1rem;
+  display: block;
+  transition: all 0.3s;
+}
+
+/* Vertical line */
+.collapsible-link::after {
+  content: '';
+  width: 2px;
+  height: 14px;
+  background: #333;
+  position: absolute;
+  top: calc(50% - 7px);
+  right: calc(1rem + 6px);
+  display: block;
+  transition: all 0.3s;
+}
+
+.collapsible-link[aria-expanded='true']::after {
+  transform: rotate(90deg) translateX(-1px);
+}
+
+.collapsible-link[aria-expanded='true']::before {
+  transform: rotate(180deg);
+}
+
+.btn-disable{
+  background:white !important;
+  color: #e83e8c !important;
+  border: 2px solid #e83e8c !important;
+}
+</style>
+
+
+  
+
+  <!-- ======= About Election ======= -->
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Campaign details</h2>
+          <h4>Department: MCA<h4>
+          <h5>Remaining time for vote:</h5>
+            <!-- Display the countdown timer in an element -->
+            <h1 id="counter"></h1>
+            
+           {% if votingEntry.vote and not expired%}
+                  <h5 class="alert alert-success" role="alert">
+                    Thanks, your vote has been recorded...
+                  </h5>
+            {% endif %}
+
+            {% if expired %}
+                <h5 class="alert alert-warning" role="alert">
+                    Voting is over, results are displayed at bottom
+                </h5>
+            {% endif %}
+        </div>
+
+
+
+    <!-- ======= More Services Section ======= -->
+    <section class="more-services section-bg">
+      <div class="container">
+        <div class="row justify-content-center">
+
+        {% if not data %}
+          <h3>No data available</h3>
+        {% endif %}
+        
+        {% for candidate in data %}
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="card">
+              {% if candidate.displayImage %}
+                <img src="{{candidate.displayImage.url}}" class="card-img-top" alt="...">
+              {% else %}
+                <img src="{% static "assets/img/more-service-1.jpg" %}" class="card-img-top" alt="...">
+              {% endif %}
+              <div class="card-body">
+                <h4 class="card-title"><a href="">{{candidate.candidate.firstName}} {{candidate.candidate.lastName}}</a></h4>
+                <p class="card-text font-weight-light m-0">{{candidate.short_description}}</p>
+
+                 <h4 class="card-title"><a href="">About me</a></h4>
+                <p class="card-text font-weight-light m-0">{{candidate.aboutMySelf}}</p>
+
+                 <h4 class="card-title"><a href="">Motivation</a></h4>
+                <p class="card-text font-weight-light m-0">{{candidate.motivation}}</p>
+
+                <h4 class="card-title"><a href="">I promise that</a></h4>
+                <p class="card-text font-weight-light m-0">{{candidate.wChanges}}</p>
+
+
+                {% comment %} <div class="row">
+                    <div class="col-lg mx-auto">
+                        <!-- Accordion -->
+                        <div id="accordionExample" class="accordion">
+
+                        <!-- Accordion item 1 -->
+                        <div class="card">
+                            <div id="headingOne" class="card-header bg-white border-0">
+                                <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="d-block position-relative text-dark text-uppercase collapsible-link py-2">About me</a></h6>
+                            </div>
+                            <div id="collapseOne" aria-labelledby="headingOne" data-parent="#accordionExample" class="collapse show">
+                                <div class="card-body">
+                                <p class="font-weight-light m-0">{{candidate.aboutMySelf}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion item 2 -->
+                        <div class="card">
+                            <div id="headingTwo" class="card-header bg-white border-0">
+                                <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" class="d-block position-relative collapsed text-dark text-uppercase collapsible-link py-2">Motivation</a></h6>
+                            </div>
+                            <div id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordionExample" class="collapse">
+                                <div class="card-body">
+                                <p class="font-weight-light m-0">{{candidate.motivation}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion item 3 -->
+                        <div class="card">
+                            <div id="headingThree" class="card-header bg-white border-0">
+                            <h6 class="mb-0 font-weight-bold"><a href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" class="d-block position-relative collapsed text-dark text-uppercase collapsible-link py-2">I promise that...</a></h6>
+                            </div>
+                            <div id="collapseThree" aria-labelledby="headingThree" data-parent="#accordionExample" class="collapse">
+                            <div class="card-body">
+                            <p class="font-weight-light m-0">{{candidate.wChanges}}</p>
+                            </div>
+                            </div>
+                        </div>
+
+                            </div>
+                            </div>
+                            </div> {% endcomment %}
+
+                {% if not expired %}
+                    {% if not votingEntry.vote %}
+                        <form id="vote_form" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="candidate" value="{{candidate.pk}}">
+                      <a href="javascript:void(0);" onclick="document.getElementById('vote_form').submit();" class="btn" >vote</a>
+                    </form>
+                    {% endif %}
+
+                {% endif %}
+                
+              </div>
+            </div>
+          </div>
+{% endfor %}
+
+      </div>
+    </section><!-- End More Services Section -->
+
+    </section>
+
+
+
+<!--Graphs will go here-->
+{% if expired and vote_result_data %}
+    <section id="about" class="about">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Campaign Result</h2>
+        </div>
+          <canvas id="pie-chart"></canvas>
+      <div>
+      </section>
+{% endif %}
+
+  <script>
+
+    var config = {
+      type: 'pie',
+      data: {
+        datasets: [{
+          data: {{ vote_result_data.data|safe }},
+          backgroundColor: [
+            '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+          ],
+          label: 'Population'
+        }],
+        labels: {{ vote_result_data.lable|safe }}
+      },
+      options: {
+        responsive: true
+      }
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById('pie-chart').getContext('2d');
+      window.myPie = new Chart(ctx, config);
+    };
+  </script>
+
+
+
+
+<script>
+// Set the date we're counting down to
+var countDownDate = new Date("{{ expiryDate | date:"D d M Y" }} {{ expiryDate | time:"H:i" }}").getTime();
+//var countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="demo"
+  document.getElementById("counter").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
+
+  // If the count down is finished, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("counter").innerHTML = "EXPIRED";
+  }
+}, 1000);
+</script>
+
+
+
+{% endblock %}
